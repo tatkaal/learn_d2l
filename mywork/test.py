@@ -5,11 +5,12 @@ class FBGroupScraper:
 
     def __init__(self, group_id):
         self.group_id = group_id
-        self.page_url = "https://mobile.facebook.com/groups/" + self.group_id
+        self.page_url = "https://m.facebook.com/groups/" + self.group_id
         self.page_content = ""
 
     def get_page_content(self):
-        self.page_content = requests.get(self.page_url).text
+        proxies = { 'https': "http://82.64.183.22:8080"}
+        self.page_content = requests.get(self.page_url, proxies=proxies).text
 
     def parse(self):
         soup = BeautifulSoup(self.page_content, "html.parser")
@@ -17,7 +18,7 @@ class FBGroupScraper:
         for i in feed_container:
             print(i.text)
 
-group_id = "1463546523692520"
+group_id = "nepalesecommunityinqueensland"
 d = FBGroupScraper(group_id)
 d.get_page_content()
 d.parse()
